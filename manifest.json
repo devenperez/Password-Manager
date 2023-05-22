@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "Basic Password Manager",
+    "description": "Supadupa basic rn but it'll get better",
+    "version": "0.1",
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "key_icon.png"
+    }
+  }
