@@ -67,8 +67,15 @@ document.getElementById("generate").onclick = function() {
     if (generatedPasswords.length == 3) {
         generatedPasswords.shift();
     }
-    generatedPasswords.push(pwd);
+    generatedPasswords.push([pwd, Date.now()]);
     document.getElementById("ub" + generatedPasswords.length).hidden = false;
+
+    let passwordFields = document.getElementsByClassName("used-password");
+    let timeFields = document.getElementsByClassName("used-time");
+    generatedPasswords.forEach((ptPair, i) => {
+        passwordFields[generatedPasswords.length - 1 - i].innerText = ptPair[0];
+        timeFields[generatedPasswords.length - 1 - i].innerText = new Date(ptPair[1]).toUTCString();
+    });
     
 }
 
