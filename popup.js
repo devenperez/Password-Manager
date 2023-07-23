@@ -3,7 +3,6 @@ var logins;
 chrome.storage.local.get(["logins"])
 .then(result => {
     if (result.logins == undefined) {
-        chrome.storage.local.set({ logins: [] });
         return;
     }
 
@@ -20,8 +19,17 @@ chrome.storage.local.get(["logins"])
             <button class="lb-copy" id="copy-${i}"><img src="copy-regular.svg" /></button>
         </div>`
 
-        document.getElementById(`copy-${i}`).onclick = function() {
-            navigator.clipboard.writeText(logins[i].password);
-        };
+        chrome.storage.session.get(["unlockKey"])
+        .then(res => {
+            document.getElementById(`copy-${i}`).onclick = function() {
+                navigator.clipboard.writeText(
+                    CryptoJS.AES.decrypt(
+                    logins[i].password,
+                    res.unlockKey
+                    )
+                    .toString(CryptoJS.enc.Utf8)
+                );
+            };
+        });
     }
 });

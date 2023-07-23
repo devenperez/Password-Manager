@@ -82,12 +82,24 @@ document.getElementById("generate").onclick = function() {
 document.getElementById("save").onclick = function() {
     chrome.storage.local.get(["logins"])
     .then(data => { 
-        data.logins.push({
-            title: document.getElementById("login-title").value,
-            email: document.getElementById("login-email").value,
-            password: document.getElementById("output").value
-        });
-        chrome.storage.local.set({logins: data.logins})
-        .then(() => { document.location.href = "popup.html"; });
+        if (data.logins == undefined) {
+            chrome.storage.local.set({ logins: [] });
+        }
+
+        chrome.storage.session.get(["unlockKey"])
+        .then(sessionData => {
+            data.logins.push({
+                title: document.getElementById("login-title").value,
+                email: document.getElementById("login-email").value,
+                password: CryptoJS.AES.encrypt(
+                    document.getElementById("output").value,
+                    sessionData.unlockKey)
+                    .toString()
+            });
+            chrome.storage.local.set({logins: data.logins})
+            .then(() => { document.location.href = "popup.html"; });
+        })
     });
 };
+
+console.log(CryptoJS.AES.encrypt("Test", "password"));

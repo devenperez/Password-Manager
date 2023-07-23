@@ -4,7 +4,7 @@
     "description": "Basic Password Manager made by Deven Perez",
     "version": "0.1",
     "action": {
-      "default_popup": "popup.html",
+      "default_popup": "login.html",
       "default_icon": "key_icon.png"
     },
     "permissions": [
