@@ -1,12 +1,14 @@
-var length = 10;
-var allowLetters = true;
-var allowNumbers = true;
-var allowSymbols = true;
+let generatedPasswords = [];
 
-var minLowerCase = 1;
-var minUpperCase = 1;
-var minNumbers = 1;
-var minSymbols = 1;
+let length = 10;
+let allowLetters = true;
+let allowNumbers = true;
+let allowSymbols = true;
+
+// let minLowerCase = 1;
+// let minUpperCase = 1;
+// let minNumbers = 1;
+// let minSymbols = 1;
 
 const lowerCase = "abcdefghijklmnopqrstuvwxyz";
 const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -15,18 +17,18 @@ const symbols = "~`!@#$%^&*()_-+={[}]|\\:;\"'<,>.?/";
 
 function generate() {
     // Securely get random values
-    var randomValues = new Uint8Array(length);
+    let randomValues = new Uint8Array(length);
     window.crypto.getRandomValues(randomValues);
 
     // Combine symbols
-    var validSymbols = "";
+    let validSymbols = "";
     if (allowLetters) validSymbols += lowerCase + upperCase;
     if (allowNumbers) validSymbols += numbers;
     if (allowSymbols) validSymbols += symbols;
 
     // Generate random password
-    var pwd = "";
-    for (var i = 0; i < length; i++) {
+    let pwd = "";
+    for (let i = 0; i < length; i++) {
         pwd += validSymbols[randomValues[i] % validSymbols.length]
         randomValues[i] = 0;
     }
@@ -34,3 +36,51 @@ function generate() {
     return pwd;
 }
 
+
+document.getElementById("letters").checked = allowLetters;
+document.getElementById("numbers").checked = allowNumbers;
+document.getElementById("symbols").checked = allowSymbols;
+
+document.getElementById("letters").onclick = function() {
+    allowLetters = !allowLetters;
+}
+
+document.getElementById("numbers").onclick = function() {
+    allowNumbers = !allowNumbers;
+}
+
+document.getElementById("symbols").onclick = function() {
+    allowSymbols = !allowSymbols;
+}
+
+document.getElementById("copy").onclick = function() {
+    navigator.clipboard.writeText(document.getElementById("output").textContent);
+}
+
+document.getElementById("back").onclick = function() {
+    document.location.href = "popup.html";
+}
+
+document.getElementById("generate").onclick = function() {
+    let pwd = generate();
+    document.getElementById("output").textContent = pwd;
+    if (generatedPasswords.length == 3) {
+        generatedPasswords.shift();
+    }
+    generatedPasswords.push(pwd);
+    document.getElementById("ub" + generatedPasswords.length).hidden = false;
+    
+}
+
+document.getElementById("save").onclick = function() {
+    chrome.storage.local.get(["logins"])
+    .then(data => { 
+        data.logins.push({
+            title: document.getElementById("login-title").value,
+            email: document.getElementById("login-email").value,
+            password: document.getElementById("output").value
+        });
+        chrome.storage.local.set({logins: data.logins})
+        .then(() => { document.location.href = "popup.html"; });
+    });
+};

@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="generator.css"></link>
+    </head>
+    <body>
+        <h1>DPwd Manager</h1>
+        <h2>Create new login</h2>
+
+        <p>
+            <label for="login-title">Title:</label>
+            <input id="login-title" type="text" />
+        </p>
+
+        <p>
+            <label for="login-email">Email:</label>
+            <input id="login-email" type="text" />
+        </p>
+
+        
+        <h3>Password Settings</h3>
+        <h4 style="margin: 0 10px 0 15px">Letters</h4>
+        <h4 style="margin: 0 10px 0 14px">Numbers</h4>
+        <h4 style="margin: 0 0px 0 12px">Symbols</h4>
+        <br>
+        <label class="switch">
+            <input id="letters" type="checkbox">
+            <span class="slider round"></span>
+        </label>
+        <label class="switch">
+            <input id="numbers" type="checkbox">
+            <span class="slider round"></span>
+        </label>
+        <label class="switch">
+            <input id="symbols" type="checkbox">
+            <span class="slider round"></span>
+        </label>
+        <br>
+        <br>
+        <textarea id="output" readonly></textarea>
+        <button type="button" class="underbutton" id="generate">Generate</button>
+        <button type="button" class="underbutton" id="copy">Copy</button>
+        <button type="button" class="save-button" id="save">Save</button>
+        <button type="button" class="underbutton" id="back">Back</button>
+
+        <div class="used-block" id="ub1" hidden>
+            <br>
+            <h3>Generated Password History</h3>
+            <h4 class="used-password">ghsdgaskdh</h4>
+            <p class="used-time">&lt;2023-06-07 12:32:00&gt;</p>
+        </div>
+        <div class="used-block" id="ub2" hidden>
+            <br>
+            <h4 class="used-password">ghsdgaskdh</h4>
+            <p class="used-time">&lt;2023-06-07 12:32:00&gt;</p>
+        </div>
+        <div class="used-block" id="ub3" hidden>
+            <br>
+            <h4 class="used-password">ghsdgaskdh</h4>
+            <p class="used-time">&lt;2023-06-07 12:32:00&gt;</p>
+        </div>
+
+        <script src="generator.js"></script>
+    </body>
+</html>
